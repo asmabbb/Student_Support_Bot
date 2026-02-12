@@ -36,7 +36,7 @@ def process_feedback(message):
         bot.send_message(chat_id, "Feedback mode cancelled.")
         return
     
-    if text.startswith("/"):
+    if text.startswith("/") or text == "Feedback":
         bot.send_message(chat_id, "⚠️ You are in feedback mode!\nSend your feedback or type /cancel.")
         bot.register_next_step_handler(message, process_feedback)
         return
