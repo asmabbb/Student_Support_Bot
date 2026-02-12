@@ -1,16 +1,5 @@
-import sys
-import os
-
-sys.path.append(os.path.dirname(os.path.dirname(__file__)))
-
-
-import telebot
-from config import API_TOKEN
+from bot_instance import bot
 from keyboards import main_keyboard
-
-
-# Making the bot object
-bot = telebot.TeleBot(token=API_TOKEN)
 
 
 # Start Handler
@@ -18,5 +7,3 @@ bot = telebot.TeleBot(token=API_TOKEN)
 def start_handler(message):
     chat_id = message.chat.id
     bot.send_message(chat_id, f"Hello {message.from_user.first_name}!\nWelcom to CET Student Support Bot.", reply_markup=main_keyboard.main_menu)
-
-bot.polling()
