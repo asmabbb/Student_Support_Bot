@@ -24,7 +24,7 @@ def get_user_feedbacks(user_id):
         ORDER BY created_at DESC
     """, (user_id,)
     )
-    data = cursor.fetchall
+    data = cursor.fetchall()
     conn.close()
     return data
 
@@ -41,5 +41,5 @@ def get_all_feedbacks():
 
     data = cursor.fetchall()
     conn.close()
-    
+
     return data
