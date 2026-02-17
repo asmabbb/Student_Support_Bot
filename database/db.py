@@ -1,6 +1,8 @@
 import sqlite3
+import os
 
-DB_NAME = "CETSU_Student_Support.db"
+# DB_NAME = "CETSU_Student_Support.db"
+DB_NAME = os.environ.get('DB_NAME', 'CETSU_Student_Support.db')
 
 
 
