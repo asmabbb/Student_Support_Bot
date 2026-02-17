@@ -1,2 +1,6 @@
 config.py
 CETSU_Student_Support.db
+*.db
+__pycache__/
+*.pyc
+.env
