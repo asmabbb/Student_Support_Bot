@@ -91,7 +91,7 @@ def view_all_feedback(message):
     feedbacks = get_all_feedbacks()
 
     if not feedbacks:
-        bot.send_message(bot.messag.id, "No feedbacks available.")
+        bot.send_message(message.chat.id, "No feedbacks available.")
         return
     
     text = ""
