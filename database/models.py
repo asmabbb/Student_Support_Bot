@@ -6,7 +6,7 @@ def save_feedback(user_id, username, text):
 
     cursor.execute ("""
         INSERT INTO feedback (user_id, username, message)
-        VALUES(?, ?, ?)
+        VALUES(%s, %s, %s)
     """, (user_id, username, text))
 
     conn.commit()
