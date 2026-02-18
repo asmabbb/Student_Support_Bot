@@ -21,7 +21,6 @@ def create_tables():
 
     cursor.execute("""
     CREATE TABLE IF NOT EXISTS feedback (
-        id INTEGER PRIMARY KEY AUTOINCREMENT,
         user_id BIGINT NOT NULL,
         username TEXT,
         message TEXT NOT NULL,
