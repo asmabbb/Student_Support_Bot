@@ -109,7 +109,8 @@ def view_my_feedback(message):
 # Back Button
 @bot.message_handler(func=lambda message: message.text == "🔙 Back to Main Menu")
 def back_to_main(message):
-    bot.send_message(message.chat.id, "Welcom back the main menu!", reply_markup=main_keyboard.main_menu)
+    is_admin = message.from_user.id in ADMIN_ID
+    bot.send_message(message.chat.id, "Welcom back the main menu!", reply_markup=main_keyboard.main_menu(is_admin))
 
 
 # Fallback Function
