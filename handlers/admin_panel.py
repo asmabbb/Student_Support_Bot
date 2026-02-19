@@ -8,7 +8,7 @@ from keyboards import main_keyboard
 
 
 # View All Feedbacks (Admins)
-@bot.message_handler(func=lambda message: message.text == "📊 View All Feedbacks")
+@bot.message_handler(func=lambda message: message.text == "📋 View All Feedbacks")
 def view_all_feedback(message):
 
     if message.from_user.id not in ADMIN_ID:
@@ -34,4 +34,5 @@ def view_all_feedback(message):
 # Back Button
 @bot.message_handler(func=lambda message: message.text == "🔙 Back to Main Menu")
 def back_to_main(message):
-    bot.send_message(message.chat.id, "Welcom back the main menu!", reply_markup=main_keyboard.main_menu)
+    is_admin = message.from_user.id in ADMIN_ID
+    bot.send_message(message.chat.id, "Welcom back the main menu!", reply_markup=main_keyboard.main_menu(is_admin))
