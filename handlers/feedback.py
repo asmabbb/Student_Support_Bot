@@ -3,7 +3,7 @@ from config import ADMIN_ID
 from keyboards import main_keyboard
 from keyboards import feedback_keyboard
 from keyboards import admin_panel_keyboard
-from database.models import save_feedback, get_all_feedbacks, get_user_feedbacks
+from database.models import save_feedback, get_user_feedbacks
 
 from database.models import save_feedback
 
@@ -11,7 +11,7 @@ from database.models import save_feedback
 feedback_mode_users = set()
 
 # creating the menu option response handler:
-@bot.message_handler(content_types=["text"], func=lambda message: message.text in ['🤖 CETSU Bots', '📢 Announcements & Group Chats', '📥 Feedback'])
+@bot.message_handler(content_types=["text"], func=lambda message: message.text in ['🤖 CETSU Bots', '📢 Announcements & Group Chats', '📥 Feedback', '⚙️ Admin Panel'])
 def option_handler(message):
     option = message.text
     chat_id = message.chat.id
