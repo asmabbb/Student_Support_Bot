@@ -2,6 +2,7 @@ from bot_instance import bot
 from config import ADMIN_ID
 from keyboards import main_keyboard
 from keyboards import feedback_keyboard
+from keyboards import admin_panel_keyboard
 from database.models import save_feedback, get_all_feedbacks, get_user_feedbacks
 
 from database.models import save_feedback
@@ -14,21 +15,24 @@ feedback_mode_users = set()
 def option_handler(message):
     option = message.text
     chat_id = message.chat.id
+
     if option == "🤖 CETSU Bots":
         bot.send_message(chat_id, "These are the CET Student Union bots: ", reply_markup=main_keyboard.bots_menu)
 
     elif option == "📥 Feedback":
-        is_admin = message.from_user.id in ADMIN_ID
         
-        bot.send_message(chat_id, "Feedback Section", reply_markup=feedback_keyboard.feedback_menu_keyboard(is_admin))
+        bot.send_message(chat_id, "Feedback Section", reply_markup=feedback_keyboard.feedback_menu_keyboard())
 
     elif option == "📢 Announcements & Group Chats":
         bot.send_message(chat_id, "Know the latest announcemnts from here: ", reply_markup=main_keyboard.join_us_menu)
+
+    elif option == "⚙️ Admin Panel":
+        bot.send_message(chat_id, "Admin Panel:", reply_markup=admin_panel_keyboard.get_admin_panel())
         
 
 
 # Make feedback 
-@bot.message_handler(func=lambda message: message.text == "✍️ Make Feedback")
+@bot.message_handler(func=lambda message: message.text == "✍️ Submit Feedback")
 def make_feedback(message):
     chat_id = message.chat.id
     feedback_mode_users.add(chat_id)
@@ -80,30 +84,30 @@ def view_my_feedback(message):
     bot.send_message(message.chat.id, text)
 
 
-# View All Feedbacks (Admins)
-@bot.message_handler(func=lambda message: message.text == "📊 View All Feedbacks")
-def view_all_feedback(message):
+# # View All Feedbacks (Admins)
+# @bot.message_handler(func=lambda message: message.text == "📊 View All Feedbacks")
+# def view_all_feedback(message):
 
-    if message.from_user.id not in ADMIN_ID:
-        bot.send_message(message.chat.id, "Unauthorized.")
-        return
+#     if message.from_user.id not in ADMIN_ID:
+#         bot.send_message(message.chat.id, "Unauthorized.")
+#         return
     
-    feedbacks = get_all_feedbacks()
+#     feedbacks = get_all_feedbacks()
 
-    if not feedbacks:
-        bot.send_message(message.chat.id, "No feedbacks available.")
-        return
+#     if not feedbacks:
+#         bot.send_message(message.chat.id, "No feedbacks available.")
+#         return
     
-    text = ""
-    for fb in feedbacks:
-            text += f"👤 {fb[1]} ({fb[0]})\n📝 {fb[2]}\n📅 {fb[3]}\n\n"
+#     text = ""
+#     for fb in feedbacks:
+#             text += f"👤 {fb[1]} ({fb[0]})\n📝 {fb[2]}\n📅 {fb[3]}\n\n"
 
-    bot.send_message(message.chat.id, text)
+#     bot.send_message(message.chat.id, text)
 
 
 
 # Back Button
-@bot.message_handler(func=lambda message: message.text == "⬅️ Back")
+@bot.message_handler(func=lambda message: message.text == "🔙 Back to Main Menu")
 def back_to_main(message):
     bot.send_message(message.chat.id, "Welcom back the main menu!", reply_markup=main_keyboard.main_menu)
 

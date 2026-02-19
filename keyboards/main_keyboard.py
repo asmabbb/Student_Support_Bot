@@ -2,12 +2,17 @@ from telebot.types import ReplyKeyboardMarkup, KeyboardButton
 from telebot.types import InlineKeyboardButton, InlineKeyboardMarkup
 
 # Main menu (Reply Keyboard)
-main_menu = ReplyKeyboardMarkup(resize_keyboard=True, one_time_keyboard=False, row_width=1)
-main_menu.add(
-    KeyboardButton("🤖 CETSU Bots"),
-    KeyboardButton("📢 Announcements & Group Chats"),
-    KeyboardButton("📥 Feedback")
-)
+def main_menu(is_admin=False):
+    main_menu = ReplyKeyboardMarkup(resize_keyboard=True, one_time_keyboard=False, row_width=1)
+    main_menu.add(
+        KeyboardButton("🤖 CETSU Bots"),
+        KeyboardButton("📢 Announcements & Group Chats"),
+        KeyboardButton("📥 Feedback")
+    )
+    if is_admin:
+        main_menu.add(KeyboardButton("⚙️ Admin Panel"))
+
+    return main_menu
 
 
 # Bot menu (Inline Keyboard)
