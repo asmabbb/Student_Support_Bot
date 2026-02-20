@@ -14,7 +14,7 @@ from telebot.types import ReplyKeyboardMarkup, KeyboardButton
 #     return feedback_menu
 
 def feedback_menu_keyboard():
-    feedback_menu = ReplyKeyboardMarkup(resize_keyboard=True, one_time_keyboard=False)
+    feedback_menu = ReplyKeyboardMarkup(resize_keyboard=True, one_time_keyboard=False, row_width=1)
 
     feedback_menu.add(KeyboardButton("✍️ Submit Feedback"))
     feedback_menu.add(KeyboardButton("📂 View My Feedback"))

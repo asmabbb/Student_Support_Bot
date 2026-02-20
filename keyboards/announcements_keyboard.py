@@ -5,7 +5,7 @@ from telebot.types import InlineKeyboardButton, InlineKeyboardMarkup
 
 # ---- Announcements Keyboard ----
 def announcements_keyboard():
-    markup = ReplyKeyboardMarkup(resize_keyboard=True, one_time_keyboard=False)
+    markup = ReplyKeyboardMarkup(resize_keyboard=True, one_time_keyboard=False, row_width=1)
 
     markup.add(
         KeyboardButton("📢 Make an Announcement"),
