@@ -60,9 +60,12 @@ def save_user(user_id, username):
     cursor = conn.cursor()
 
     cursor.execute("""
-        INSERT INTO users (user_id, username)
-        VALUES (%s, %s)
+        INSERT INTO users (user_id, username, last_active)
+        VALUES (%s, %s, CURRENT_TIMESTAMP)
         ON CONFLICT (user_id) DO NOTHING
+        DO UPDATE SET 
+                   username = EXCLUDED.username,
+                   last_active = CURRENT_TIMESTAMP
     """, (user_id, username)
     )
 
@@ -102,7 +105,15 @@ def reset_database_if_new_year():
                 print("New year detected. Resetting database...")
 
                 # Clear database tables
-                cursor.execute("DELETE FROM feedback")
+                cursor.execute("""
+                    DELETE FROM feedback
+                    WHERE created at < NOW() - INTERVAL '1 year'
+                               """)
+                
+                cursor.execute("""
+                    DELETE FROM users
+                    WHERE last_active < NOW() - INTERVAL '1 year'
+                """)
 
                 # Save reset year
                 cursor.execute("""
@@ -120,3 +131,24 @@ def reset_database_if_new_year():
     finally:
         conn.close()
         
+
+
+# Automatically Delete Inactive Users (1 Year)
+# def delete_inactive_users():
+#     conn = get_connection()
+#     cursor = conn.cursor()
+
+#     try:
+#         cursor.execute("""
+#             DELETE FROM users
+#             WHERE last_acive < NOW() - INTERVAL '1 year'
+#         """)
+
+#         conn.commit()
+#         print("Inactive users cleanup complete")
+
+#     except Exception as e:
+#         print("Cleanup error:", e)
+
+#     finally:
+#         conn.close()
