@@ -11,10 +11,6 @@ from keyboards import main_keyboard
 @bot.message_handler(func=lambda message: message.text == "📋 View All Feedbacks")
 def view_all_feedback(message):
 
-    if message.from_user.id not in ADMIN_ID:
-        bot.send_message(message.chat.id, "Unauthorized.")
-        return
-    
     feedbacks = get_all_feedbacks()
 
     if not feedbacks:
@@ -23,7 +19,7 @@ def view_all_feedback(message):
     
     text = ""
     for fb in feedbacks:
-            text += f"👤 {fb[1]} ({fb[0]})\n📝 {fb[2]}\n📅 {fb[3]}\n\n"
+            text += f"👤 {fb[1]} ({fb[0]})\n\n📝 {fb[2]}\n\n📅 {fb[3]}\n\n\n--------------------"
 
     bot.send_message(message.chat.id, text)
 

@@ -112,12 +112,3 @@ def back_to_main(message):
     is_admin = message.from_user.id in ADMIN_ID
     bot.send_message(message.chat.id, "Welcom back the main menu!", reply_markup=main_keyboard.main_menu(is_admin))
 
-
-# Fallback Function
-@bot.message_handler(func=lambda message: True)
-def fallback(message):
-    bot.send_message(
-        message.chat.id,
-        "🤖 I didn't understand that. \nPlease choose an option from the menu.",
-        reply_markup=main_keyboard.main_menu
-    )

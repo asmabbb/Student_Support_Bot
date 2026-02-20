@@ -3,6 +3,7 @@ from bot_instance import bot
 import handlers.main_menu
 import handlers.feedback
 import handlers.admin_panel
+import handlers.fallback
 
 from database.db import create_tables
 
