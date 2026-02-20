@@ -1,8 +1,7 @@
 from bot_instance import bot
 from config import ADMIN_ID
 from database.models import get_all_feedbacks
-from keyboards import main_keyboard
-import psycopg2
+from keyboards import main_keyboard, announcements_keyboard
 
 
 
@@ -20,10 +19,27 @@ def view_all_feedback(message):
     
     text = ""
     for fb in feedbacks:
-            formatted_date = fb[3].strftime("%Y-%m-%d %H:%M")
-            text += f"👤 {fb[1]}    ({fb[0]})\n\n📝 {fb[2]}\n\n📅 {formatted_date}\n\n-------------------------------------------\n"
+            formatted_date = fb[3].strftime("%Y-%m-%d at %I:%M %p")
+            text += f"👤 {fb[1]}    ({fb[0]})\n\n📝 {fb[2]}\n\n📅 {formatted_date}\n\n----------------------------------------------------------\n"
 
     bot.send_message(message.chat.id, text)
+
+
+
+
+
+
+
+# Announcements Button
+@bot.message_handler(func=lambda messages: messages.text == "📤 Announcements")
+def announements(message):
+     chat_id = message.chat.id
+     bot.send_message(chat_id, "Announcements Section.", reply_markup=announcements_keyboard.announcements_keyboard())
+
+
+
+
+
 
 
 

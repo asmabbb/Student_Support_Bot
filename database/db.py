@@ -14,11 +14,12 @@ def get_connection():
     return psycopg2.connect(DATABASE_URL)
 
 
-
+# ---- Create Feedback & Users Tables in DB ----
 def create_tables():
     conn = get_connection()
     cursor = conn.cursor()
 
+    # Create Feedback Table:
     cursor.execute("""
     CREATE TABLE IF NOT EXISTS feedback (
         user_id BIGINT NOT NULL,
@@ -29,3 +30,12 @@ def create_tables():
     """)
     conn.commit()
     conn.close()
+
+
+    # Create Users Table:
+    cursor.execute("""
+        CREATE TABLE IF NOT EXISTS users (
+            user_id BIGINT PRIMARY KEY,
+            username TEXT     
+                   )
+    """)

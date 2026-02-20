@@ -79,8 +79,8 @@ def view_my_feedback(message):
     
     text = ""
     for fb in feedbacks:
-        formatted_date = fb[1].strftime(("%Y-%m-%d %H:%M"))
-        text += f"📝 {fb[0]}\n\n📅 {formatted_date}\n\n-------------------------------------------\n"
+        formatted_date = fb[1].strftime(("%Y-%m-%d at %I:%M %p"))
+        text += f"📝 {fb[0]}\n\n📅 {formatted_date}\n\n----------------------------------------------------------\n"
 
     bot.send_message(message.chat.id, text)
 
