@@ -12,6 +12,8 @@ def announcements_keyboard():
         KeyboardButton("🔙 Back to Admin Panel")
     )
 
+    return markup
+
 
 
 

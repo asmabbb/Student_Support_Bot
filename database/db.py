@@ -22,15 +22,14 @@ def create_tables():
     # Create Feedback Table:
     cursor.execute("""
     CREATE TABLE IF NOT EXISTS feedback (
-        user_id BIGINT PRIMARY KEY,
+        id SERIAL PRIMARY KEY,
+        user_id BIGINT NOT NULL,
         username TEXT,
         message TEXT NOT NULL,
         created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
     )
     """)
-    conn.commit()
-    conn.close()
-
+    
 
     # Create Users Table:
     cursor.execute("""
@@ -39,3 +38,6 @@ def create_tables():
             username TEXT     
                    )
     """)
+
+    conn.commit()
+    conn.close()
