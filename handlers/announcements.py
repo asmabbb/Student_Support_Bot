@@ -16,6 +16,8 @@ def make_announcement(message):
 
     if message.from_user.id not in ADMIN_ID:
         return
+    
+    announcement_mode_admins[message.from_user.id] = True
 
     bot.send_message(chat_id, "Send the announcement: ")
     bot.register_next_step_handler(message, preview_announcement)
@@ -23,22 +25,24 @@ def make_announcement(message):
 
 
 
-
+@bot.message_handler(content_types=["text", "photo", "video"])
 def preview_announcement(message):
     user_id = message.from_user.id
     chat_id = message.chat.id
 
-
-
     if message.from_user.id not in ADMIN_ID:
         return
     
-    announcement_text = message.text
+    if message.from_user.id not in announcement_mode_admins:
+        return
+    
 
-    #Store announcement temporarily
-    announcement_mode_admins[user_id] = announcement_text
-
-    bot.send_message(chat_id, f"📢 Announcement Preview:\n\n{announcement_text}", reply_markup=announcement_confirmation())
+    # Save message info instead of just text
+    announcement_mode_admins[message.from_user.id] = {
+        "chat_id": message.chat.id, 
+        "message_id":message.message.id
+        }
+    bot.send_message(chat_id, "📢 Announcement Preview — Confirm?", reply_markup=announcement_confirmation())
 
 
 
@@ -61,26 +65,31 @@ def handle_announcement_confirmation(call):
         return
     
     if option == "confirm_announcement":
-        announcement_text = announcement_mode_admins.get(admin_id)
+        data = announcement_mode_admins.get(admin_id)
 
-        if not announcement_text:
-            bot.answer_callback_query(call.id, "No annoncement found.", show_alert=True)
+        if not data:
+            bot.answer_callback_query(call.id, "No annoncement found.")
             return
         
-        users = get_all_users()
+        else:
+            users = get_all_users()
 
-        sent_count = 0
+            sent_count = 0
 
-        for user in users:
-            try:
-                bot.send_message(user[0], f"📢 Announcement:\n\n{announcement_text}")
-                sent_count += 1
-            except:
-                pass # Incase a user blocked bot or error
+            for user in users:
+                try:
+                    bot.copy_message(
+                        chat_id=user[0],
+                        from_chat_id=data["chat_id"],
+                        message_id=data["message_id"]
+                     )
+                    sent_count += 1
+                except:
+                    pass # Incase a user blocked bot or error
 
-        announcement_mode_admins.pop(admin_id, None)
+            announcement_mode_admins.pop(admin_id, None)
 
-        bot.edit_message_text(f"✅ Announcement sent to {sent_count} users.", chat_id, message_id)
+            bot.edit_message_text(f"✅ Announcement sent to {sent_count} users.", chat_id, message_id)
 
 
 
