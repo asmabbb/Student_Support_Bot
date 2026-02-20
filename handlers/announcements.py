@@ -10,16 +10,24 @@ announcement_mode_admins = {}
 
 # Handle making an announcement
 
-@bot.message_handler(func=lambda message: message.text == "📢 Make an Announcement")
-def make_announcement(message):
+@bot.message_handler(func=lambda message: message.text in ["📢 Make an Announcement", "🔙 Back to Admin Panel"] )
+def announcements_handler(message):
     chat_id = message.chat.id
+    option = message.text
 
     if message.from_user.id not in ADMIN_ID:
         return
     
-    announcement_mode_admins[message.from_user.id] = True
+    if option == "📢 Make an Announcement":
+    
+        announcement_mode_admins[message.from_user.id] = True
 
-    bot.send_message(chat_id, "Send the announcement: ")
+        bot.send_message(chat_id, "Send the announcement: ")
+
+    elif option == "🔙 Back to Admin Panel":
+        bot.send_message(chat_id, "Admin Panel.", reply_markup=get_admin_panel())
+
+
 
 
 
@@ -29,10 +37,10 @@ def preview_announcement(message):
     user_id = message.from_user.id
     chat_id = message.chat.id
 
-    if message.from_user.id not in ADMIN_ID:
+    if user_id not in ADMIN_ID:
         return
     
-    if message.from_user.id not in announcement_mode_admins:
+    if user_id not in announcement_mode_admins:
         return
     
 
@@ -96,7 +104,7 @@ def handle_announcement_confirmation(call):
 
 
 # Back to Admin Panel button
-@bot.message_handler(func=lambda message: message.text == "🔙 Back to Admin Panel")
-def back_to_admin_panel(message):
-    chat_id = message.chat.id
-    bot.send_message(chat_id, "Admin Panel.", reply_markup=get_admin_panel())
+# @bot.message_handler(func=lambda message: message.text == "🔙 Back to Admin Panel")
+# def back_to_admin_panel(message):
+#     chat_id = message.chat.id
+#     bot.send_message(chat_id, "Admin Panel.", reply_markup=get_admin_panel())
