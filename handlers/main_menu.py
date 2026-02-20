@@ -15,5 +15,4 @@ def start_handler(message):
 
     save_user(user_id, username)
 
-    bot.send_message(chat_id, f"👋 أهلاً بك {message.from_user.first_name}\nمرحبًا بك في بوت دعم اتحاد طلبة كلية التقنية الإلكترونية."
-, reply_markup=main_keyboard.main_menu(is_admin))
+    bot.send_message(chat_id, f" {message.from_user.first_name}👋 أهلا بك!\n مرحبًا بك في بوت دعم الطالب من إتحاد طلبة كلية التقنية الإلكترونية.\n ", reply_markup=main_keyboard.main_menu(is_admin))

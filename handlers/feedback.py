@@ -42,7 +42,7 @@ def make_feedback(message):
     # ---- [✍️ Submit Feedback] Button ----
     if option == "✍️ Submit Feedback":
         feedback_mode_users.add(chat_id)
-        bot.send_message(chat_id, "أنت الآن في وضع إرسال الملاحظات, يرجىكتابة ملاحظتك, أو كتابة /cancel للإلغاء.")
+        bot.send_message(chat_id, "أنت الآن في وضع إرسال الملاحظات, يرجى كتابة ملاحظتك, أو كتابة /cancel للإلغاء.")
         bot.register_next_step_handler(message, process_feedback)
 
 
@@ -83,7 +83,7 @@ def process_feedback(message):
     
     if message.text == "/cancel":
         feedback_mode_users.remove(chat_id)
-        bot.send_message(chat_id, "Feedback mode cancelled.")
+        bot.send_message(chat_id, "تم إلغاء وضع Feedback mode.")
         return
     
     if text.startswith("/") or text in ["✍️ Submit Feedback", "📂 View My Feedback", "🔙 Back to Main Menu"]:
