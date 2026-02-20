@@ -8,6 +8,5 @@ def get_admin_panel():
         KeyboardButton("📤 Announcements"),
         KeyboardButton("🔙 Back to Main Menu")
         )
-    
 
     return markup

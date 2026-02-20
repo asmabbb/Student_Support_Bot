@@ -1,7 +1,7 @@
 from bot_instance import bot
 from config import ADMIN_ID
 from database.models import get_all_users
-from keyboards.announcements_keyboard import announcements_keyboard, announcement_confirmation
+from keyboards.announcements_keyboard import announcement_confirmation
 from keyboards.admin_panel_keyboard import get_admin_panel
 
 
@@ -24,7 +24,7 @@ def make_announcement(message):
 
 
 
-@bot.message_handler(content_types=["text", "photo", "video"])
+@bot.message_handler(content_types=["text", "photo", "video"], func=lambda message: message.from_user.id in announcement_mode_admins)
 def preview_announcement(message):
     user_id = message.from_user.id
     chat_id = message.chat.id
