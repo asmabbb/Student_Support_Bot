@@ -88,28 +88,35 @@ def get_all_users():
 def reset_database_if_new_year():
     conn = get_connection()
     cursor = conn.cursor()
+    try:
+        now = datetime.now()
+        current_year = str(now.year)
 
-    now = datetime.now()
-    current_year = str(now.year)
+        # Check if reset already happened this year
+        cursor.execute("SELECT value FROM settings WHERE key = 'last_reset_year'")
+        row = cursor.fetchone()
 
-    # Check if reset already happened this year
-    cursor.execute("SELECT value FROM settings WHERE key = 'last_reset_year'")
-    row = cursor.fetchone()
+        if row is None or row[0] != current_year:
+            # Only reser if today January 1st
+            if now.month == 1 and now.day == 1:
+                print("New year detected. Resetting database...")
 
-    if row is None or row[0] != current_year:
-        # Only reser if today January 1st
-        if now.month == 1 and now.day == 1:
-            print("New year detected. Resetting database...")
+                # Clear database tables
+                cursor.execute("DELETE FROM feedback")
 
-        # Clear database tables
-        cursor.execute("DELETE FROM feedbacks")
-        cursor.execute("DELETE FROM users")
+                # Save reset year
+                cursor.execute("""
+                            INSERT INTO settings (key, value)
+                            VALUES (%s, %s)
+                            ON CONFLICT (key)
+                            DO UPDATE SET value = EXCLUDED.value
+                        """, ('last_reset_year', current_year))
 
-        # Save reset year
-        cursor.execute("""
-            INSERT OR REPLACE INTO settings (key, value)
-            VAULES ('last_reset_year', %s)
-        """, (current_year))
-
-        conn.commit()
-        print("Database reset complete.")
+                conn.commit()
+                print("Database reset complete.")
+    except Exception as e:
+        print("Reset error:", e)
+    
+    finally:
+        conn.close()
+        
