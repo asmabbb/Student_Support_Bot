@@ -35,14 +35,14 @@ def create_tables():
     cursor.execute("""
         CREATE TABLE IF NOT EXISTS users (
             user_id BIGINT PRIMARY KEY,
-            username TEXT  
+            username TEXT,
             last_active TIMESTAMP DEFAULT CURRENT_TIMESTAMP   
                    )
     """)
 
     cursor.execute("""
         ALTER TABLE users
-        ADD COLUMN IF NOT EXITST last_active TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+        ADD COLUMN IF NOT EXISTS last_active TIMESTAMP DEFAULT CURRENT_TIMESTAMP
     """)
 
 
