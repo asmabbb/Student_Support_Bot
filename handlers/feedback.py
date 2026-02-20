@@ -19,25 +19,55 @@ def option_handler(message):
     if option == "🤖 CETSU Bots":
         bot.send_message(chat_id, "These are the CET Student Union bots: ", reply_markup=main_keyboard.bots_menu)
 
+
     elif option == "📥 Feedback":
-        
         bot.send_message(chat_id, "Feedback Section", reply_markup=feedback_keyboard.feedback_menu_keyboard())
+
 
     elif option == "📢 Announcements & Group Chats":
         bot.send_message(chat_id, "Know the latest announcemnts from here: ", reply_markup=main_keyboard.join_us_menu)
+
 
     elif option == "⚙️ Admin Panel":
         bot.send_message(chat_id, "Admin Panel:", reply_markup=admin_panel_keyboard.get_admin_panel())
         
 
 
-# Make feedback 
-@bot.message_handler(func=lambda message: message.text == "✍️ Submit Feedback")
+# Handle Feedback Section 
+@bot.message_handler(func=lambda message: message.text in ["✍️ Submit Feedback", "📂 View My Feedback", "🔙 Back to Main Menu"] )
 def make_feedback(message):
     chat_id = message.chat.id
-    feedback_mode_users.add(chat_id)
-    bot.send_message(chat_id, f"Ok {message.from_user.first_name}, you are now in feedback mode.\nSend your feedback or type /cancel.")
-    bot.register_next_step_handler(message, process_feedback)
+    option = message.text
+
+    # ---- [✍️ Submit Feedback] Button ----
+    if option == "✍️ Submit Feedback":
+        feedback_mode_users.add(chat_id)
+        bot.send_message(chat_id, f"Ok {message.from_user.first_name}, you are now in feedback mode.\nSend your feedback or type /cancel.")
+        bot.register_next_step_handler(message, process_feedback)
+
+
+    # ---- [📂 View My Feedback] Button ----
+    elif option == "📂 View My Feedback":
+        feedbacks = get_user_feedbacks(message.from_user.id)
+
+        if not feedbacks:
+            bot.send_message(message.chat.id, "You haven't submitted any feedbacks yet.")
+            return
+        
+        text = ""
+        for fb in feedbacks:
+            formatted_date = fb[1].strftime(("%Y-%m-%d at %I:%M %p"))
+            text += f"📝 {fb[0]}\n\n📅 {formatted_date}\n\n----------------------------------------------------------\n"
+
+        bot.send_message(message.chat.id, text)
+
+
+    # ---- [🔙 Back to Main Menu] Button ----
+    elif option == "🔙 Back to Main Menu":
+        is_admin = message.from_user.id in ADMIN_ID
+        bot.send_message(message.chat.id, "Welcom back the main menu!", reply_markup=main_keyboard.main_menu(is_admin))
+
+
 
 
 
@@ -68,21 +98,21 @@ def process_feedback(message):
 
 
 # View My Feedback
-@bot.message_handler(func=lambda message: message.text == "📂 View My Feedback")
-def view_my_feedback(message):
+# @bot.message_handler(func=lambda message: message.text == "📂 View My Feedback")
+# def view_my_feedback(message):
     
-    feedbacks = get_user_feedbacks(message.from_user.id)
+#     feedbacks = get_user_feedbacks(message.from_user.id)
 
-    if not feedbacks:
-        bot.send_message(message.chat.id, "You haven't submitted any feedbacks yet.")
-        return
+#     if not feedbacks:
+#         bot.send_message(message.chat.id, "You haven't submitted any feedbacks yet.")
+#         return
     
-    text = ""
-    for fb in feedbacks:
-        formatted_date = fb[1].strftime(("%Y-%m-%d at %I:%M %p"))
-        text += f"📝 {fb[0]}\n\n📅 {formatted_date}\n\n----------------------------------------------------------\n"
+#     text = ""
+#     for fb in feedbacks:
+#         formatted_date = fb[1].strftime(("%Y-%m-%d at %I:%M %p"))
+#         text += f"📝 {fb[0]}\n\n📅 {formatted_date}\n\n----------------------------------------------------------\n"
 
-    bot.send_message(message.chat.id, text)
+#     bot.send_message(message.chat.id, text)
 
 
 # # View All Feedbacks (Admins)
@@ -108,8 +138,8 @@ def view_my_feedback(message):
 
 
 # Back Button
-@bot.message_handler(func=lambda message: message.text == "🔙 Back to Main Menu")
-def back_to_main(message):
-    is_admin = message.from_user.id in ADMIN_ID
-    bot.send_message(message.chat.id, "Welcom back the main menu!", reply_markup=main_keyboard.main_menu(is_admin))
+# @bot.message_handler(func=lambda message: message.text == "🔙 Back to Main Menu")
+# def back_to_main(message):
+#     is_admin = message.from_user.id in ADMIN_ID
+#     bot.send_message(message.chat.id, "Welcom back the main menu!", reply_markup=main_keyboard.main_menu(is_admin))
 
