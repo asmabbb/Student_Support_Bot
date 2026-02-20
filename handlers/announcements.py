@@ -20,7 +20,6 @@ def make_announcement(message):
     announcement_mode_admins[message.from_user.id] = True
 
     bot.send_message(chat_id, "Send the announcement: ")
-    bot.register_next_step_handler(message, preview_announcement)
 
 
 
@@ -40,9 +39,9 @@ def preview_announcement(message):
     # Save message info instead of just text
     announcement_mode_admins[message.from_user.id] = {
         "chat_id": message.chat.id, 
-        "message_id":message.message.id
+        "message_id":message.message_id
         }
-    bot.send_message(chat_id, "📢 Announcement Preview — Confirm?", reply_markup=announcement_confirmation())
+    bot.send_message(chat_id, "⚠️ Announcement Preview — Confirm?", reply_markup=announcement_confirmation())
 
 
 
