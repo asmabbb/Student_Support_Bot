@@ -109,11 +109,6 @@ def reset_database_if_new_year():
                     DELETE FROM feedback
                     WHERE created at < NOW() - INTERVAL '1 year'
                                """)
-                
-                cursor.execute("""
-                    DELETE FROM users
-                    WHERE last_active < NOW() - INTERVAL '1 year'
-                """)
 
                 # Save reset year
                 cursor.execute("""
@@ -134,21 +129,21 @@ def reset_database_if_new_year():
 
 
 # Automatically Delete Inactive Users (1 Year)
-# def delete_inactive_users():
-#     conn = get_connection()
-#     cursor = conn.cursor()
+def delete_inactive_users():
+    conn = get_connection()
+    cursor = conn.cursor()
 
-#     try:
-#         cursor.execute("""
-#             DELETE FROM users
-#             WHERE last_acive < NOW() - INTERVAL '1 year'
-#         """)
+    try:
+        cursor.execute("""
+            DELETE FROM users
+            WHERE last_acive < NOW() - INTERVAL '1 year'
+        """)
 
-#         conn.commit()
-#         print("Inactive users cleanup complete")
+        conn.commit()
+        print("Inactive users cleanup complete")
 
-#     except Exception as e:
-#         print("Cleanup error:", e)
+    except Exception as e:
+        print("Cleanup error:", e)
 
-#     finally:
-#         conn.close()
+    finally:
+        conn.close()

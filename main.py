@@ -7,7 +7,7 @@ import handlers.announcements
 import handlers.fallback
 
 from database.db import create_tables
-from database.models import reset_database_if_new_year
+from database.models import reset_database_if_new_year, delete_inactive_users
 
 # ----- Flask Server -----
 from flask import Flask
@@ -28,6 +28,8 @@ threading.Thread(target=run_web).start()
 
 # ---- Start Everything ---- 
 create_tables()
+
+delete_inactive_users()
 
 reset_database_if_new_year()
 
