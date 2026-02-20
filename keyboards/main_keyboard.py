@@ -16,9 +16,9 @@ def main_menu(is_admin=False):
 
 
 # Bot menu (Inline Keyboard)
-roadMap = InlineKeyboardButton("🗺️ Select your RoadMap", url="https://t.me/RoadMap_CETSU_bot")
-comp_lost = InlineKeyboardButton("📝 Complaints/ Lost & founds Bot", url="https://t.me/TicketCETSu_bot")
-syllabus = InlineKeyboardButton("📚 Syllabus Bot", url="https://t.me/CETCu_bot")
+roadMap = InlineKeyboardButton("🗺️ أرسم مسارك", url="https://t.me/RoadMap_CETSU_bot")
+comp_lost = InlineKeyboardButton("📝 المفقودات/الشكاوي", url="https://t.me/TicketCETSu_bot")
+syllabus = InlineKeyboardButton("📚 المناهج", url="https://t.me/CETCu_bot")
 
 bots_menu = InlineKeyboardMarkup(row_width=1)
 bots_menu.add(roadMap, comp_lost, syllabus)

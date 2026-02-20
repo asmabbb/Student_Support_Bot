@@ -39,5 +39,14 @@ def create_tables():
                    )
     """)
 
+
+    # Create Settings table => This prevents the reset from running multiple times on the same day.
+    cursor.execute("""
+    CREATE TABLE IF NOT EXISTS settings (
+                   key TEXT PRIMARY KEY,
+                   value  TEXT
+                   )
+    """)
+
     conn.commit()
     conn.close()

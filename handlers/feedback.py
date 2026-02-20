@@ -42,7 +42,7 @@ def make_feedback(message):
     # ---- [✍️ Submit Feedback] Button ----
     if option == "✍️ Submit Feedback":
         feedback_mode_users.add(chat_id)
-        bot.send_message(chat_id, f"Ok {message.from_user.first_name}, you are now in feedback mode.\nSend your feedback or type /cancel.")
+        bot.send_message(chat_id, "أنت الآن في وضع إرسال الملاحظات, يرجىكتابة ملاحظتك, أو كتابة /cancel للإلغاء.")
         bot.register_next_step_handler(message, process_feedback)
 
 
@@ -51,7 +51,7 @@ def make_feedback(message):
         feedbacks = get_user_feedbacks(message.from_user.id)
 
         if not feedbacks:
-            bot.send_message(message.chat.id, "You haven't submitted any feedbacks yet.")
+            bot.send_message(message.chat.id, "📭 لم تقم بإرسال أي ملاحظات حتى الآن.")
             return
         
         text = ""
@@ -65,7 +65,7 @@ def make_feedback(message):
     # ---- [🔙 Back to Main Menu] Button ----
     elif option == "🔙 Back to Main Menu":
         is_admin = message.from_user.id in ADMIN_ID
-        bot.send_message(message.chat.id, "Welcom back the main menu!", reply_markup=main_keyboard.main_menu(is_admin))
+        bot.send_message(message.chat.id, "🔙 تم الرجوع إلى القائمة الرئيسية.", reply_markup=main_keyboard.main_menu(is_admin))
 
 
 
@@ -87,13 +87,13 @@ def process_feedback(message):
         return
     
     if text.startswith("/") or text in ["✍️ Submit Feedback", "📂 View My Feedback", "🔙 Back to Main Menu"]:
-        bot.send_message(chat_id, "⚠️ You are in feedback mode!\nSend your feedback or type /cancel.")
+        bot.send_message(chat_id, "⚠️ أنت حالياً في وضع Feedback mode. \nيرجى كتابة ملاحظتك,أو كتابة /cancel للإلغاء و الخروج من هذا الوضع.")
         bot.register_next_step_handler(message, process_feedback)
         return
     
     save_feedback(user_id, username, text)
     
-    bot.reply_to(message, "✅ Your message has been saved and will be reviewed. \nThank you for your input.")
+    bot.reply_to(message, "✅ تم استلام ملاحظتك بنجاح، وسيتم مراجعتها في أقرب وقت ممكن. \nنشكرك على تواصلك ومساهمتك القيّمة.")
     feedback_mode_users.remove(chat_id)
 
 

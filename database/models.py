@@ -1,5 +1,7 @@
 from database.db import get_connection
 
+from datetime import datetime
+
 
 
 # ---- Feedback Table Functions ----
@@ -79,3 +81,35 @@ def get_all_users():
     conn.close()
 
     return users
+
+
+# Resetting the database every new year
+
+def reset_database_if_new_year():
+    conn = get_connection()
+    cursor = conn.cursor()
+
+    now = datetime.now()
+    current_year = str(now.year)
+
+    # Check if reset already happened this year
+    cursor.execute("SELECT value FROM settings WHERE key = 'last_reset_year'")
+    row = cursor.fetchone()
+
+    if row is None or row[0] != current_year:
+        # Only reser if today January 1st
+        if now.month == 1 and now.day == 1:
+            print("New year detected. Resetting database...")
+
+        # Clear database tables
+        cursor.execute("DELETE FROM feedbacks")
+        cursor.execute("DELETE FROM users")
+
+        # Save reset year
+        cursor.execute("""
+            INSERT OR REPLACE INTO settings (key, value)
+            VAULES ('last_reset_year', %s)
+        """, (current_year))
+
+        conn.commit()
+        print("Database reset complete.")
