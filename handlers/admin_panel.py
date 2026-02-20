@@ -19,7 +19,7 @@ def view_all_feedback(message):
     
     text = ""
     for fb in feedbacks:
-            text += f"👤 {fb[1]} ({fb[0]})\n\n📝 {fb[2]}\n\n📅 {fb[3]}\n\n\n--------------------"
+            text += f"👤 {fb[1]}    ({fb[0]})\n\n📝 {fb[2]}\n\n📅 {fb[3]}\n\n-------------------------------------------\n"
 
     bot.send_message(message.chat.id, text)
 
