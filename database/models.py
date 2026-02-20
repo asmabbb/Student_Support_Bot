@@ -10,7 +10,7 @@ def save_feedback(user_id, username, text):
 
     cursor.execute ("""
         INSERT INTO feedback (user_id, username, message)
-        VALUES(?, ?, ?)
+        VALUES(%s, %s, %s)
     """, (user_id, username, text))
 
     conn.commit()
@@ -24,7 +24,7 @@ def get_user_feedbacks(user_id):
     cursor.execute("""
         SELECT message, created_at
         FROM feedback
-        WHERE user_id = ?
+        WHERE user_id = %s
         ORDER BY created_at DESC
     """, (user_id,)
     )

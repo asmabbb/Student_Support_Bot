@@ -22,7 +22,7 @@ def create_tables():
     # Create Feedback Table:
     cursor.execute("""
     CREATE TABLE IF NOT EXISTS feedback (
-        user_id BIGINT NOT NULL,
+        user_id BIGINT PRIMARY KEY,
         username TEXT,
         message TEXT NOT NULL,
         created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
