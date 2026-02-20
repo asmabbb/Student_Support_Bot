@@ -2,6 +2,7 @@ from bot_instance import bot
 from config import ADMIN_ID
 from database.models import get_all_feedbacks
 from keyboards import main_keyboard
+import psycopg2
 
 
 
@@ -19,7 +20,8 @@ def view_all_feedback(message):
     
     text = ""
     for fb in feedbacks:
-            text += f"👤 {fb[1]}    ({fb[0]})\n\n📝 {fb[2]}\n\n📅 {fb[3]}\n\n-------------------------------------------\n"
+            formatted_date = fb[3].strftime("%Y-%m-%d %H:%M")
+            text += f"👤 {fb[1]}    ({fb[0]})\n\n📝 {fb[2]}\n\n📅 {formatted_date}\n\n-------------------------------------------\n"
 
     bot.send_message(message.chat.id, text)
 
