@@ -21,11 +21,11 @@ def option_handler(message):
 
 
     elif option == "📥 Feedback":
-        bot.send_message(chat_id, "Feedback Section", reply_markup=feedback_keyboard.feedback_menu_keyboard())
+        bot.send_message(chat_id, "قسم الملاحظات.", reply_markup=feedback_keyboard.feedback_menu_keyboard())
 
 
     elif option == "📢 Announcements & Group Chats":
-        bot.send_message(chat_id, "Know the latest announcemnts from here: ", reply_markup=main_keyboard.join_us_menu)
+        bot.send_message(chat_id, "إطَّلع على آخر الأخبار, وانضم لمجموعة الطلبة العامة من هنا:", reply_markup=main_keyboard.join_us_menu)
 
 
     elif option == "⚙️ Admin Panel":

@@ -25,8 +25,8 @@ bots_menu.add(roadMap, comp_lost, syllabus)
 
 
 # Join Us Menu:
-announce = InlineKeyboardButton("Announcements", url="https://t.me/Ta3alm_ET")
-group_chat = InlineKeyboardButton("Group Chat", url="https://t.me/etstudents_e")
+announce = InlineKeyboardButton("الإعلانات", url="https://t.me/Ta3alm_ET")
+group_chat = InlineKeyboardButton("مجموعة الطلبة", url="https://t.me/etstudents_e")
 
 join_us_menu = InlineKeyboardMarkup(row_width=2)
 join_us_menu.add(announce, group_chat)
