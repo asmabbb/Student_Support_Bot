@@ -4,6 +4,10 @@ from database.models import get_all_users
 from keyboards.announcements_keyboard import announcement_confirmation
 from keyboards.admin_panel_keyboard import get_admin_panel
 
+import time 
+import threading
+from telebot.apihelper import ApiTelegramException
+
 
 # A temporary storage for the announcement
 announcement_mode_admins = {}
@@ -79,20 +83,19 @@ def handle_announcement_confirmation(call):
             return
         
         else:
-            users = get_all_users()
+            # start broadcast in background thread
+            thread = threading.Thread(
+                target=broadcast_announcement,
+                args=(data, chat_id, message_id)
+            )
 
-            sent_count = 0
+            thread.start()
 
-            for user in users:
-                try:
-                    bot.copy_message(
-                        chat_id=user[0],
-                        from_chat_id=data["chat_id"],
-                        message_id=data["message_id"]
-                     )
-                    sent_count += 1
-                except:
-                    pass # Incase a user blocked bot or error
+            bot.edit_message_text(
+                "📡 Sending announcement to all users...",
+                chat_id,
+                message_id
+            )
 
             announcement_mode_admins.pop(admin_id, None)
 
@@ -101,6 +104,39 @@ def handle_announcement_confirmation(call):
 
 
 
+
+
+# Broadcast Function
+def broadcast_announcement(data, chat_id, message_id):
+    users = get_all_users()
+
+    sent_count = 0
+
+    for user in users:
+        try:
+            bot.copy_message(
+                chat_id=user[0],
+                from_chat_id=data["chat_id"],
+                message_id=data["message_id"]
+             )
+            
+            sent_count += 1
+
+            # Telegram safe speed (about 25 messages per second for 5000 users)
+            time.sleep(0.04)
+
+        except ApiTelegramException as e:
+             
+             # Telegram rate limit protection
+             if "Too Many Requests" in str(e):
+                 time.sleep(3)  # Wait a bit before retrying
+                 continue   
+             
+        except Exception:
+            # User blocked bot or other error, just skip
+            pass
+
+    bot.send_message(chat_id, f"✅ Announcement sent to {sent_count} users.", reply_markup=get_admin_panel())
 
 
 # Back to Admin Panel button
