@@ -19,10 +19,10 @@ def main_menu(is_admin=False):
 roadMap = InlineKeyboardButton("🗺️ أرسم مسارك", url="https://t.me/RoadMap_CETSU_bot")
 comp_lost = InlineKeyboardButton("📝 المفقودات/الشكاوي", url="https://t.me/TicketCETSu_bot")
 syllabus = InlineKeyboardButton("📚 المناهج", url="https://t.me/CETCu_bot")
-syllabus2 = InlineKeyboardButton("📚 المناهج (جديد)", url="https://t.me/CETSU_Syllabus_Bot")
+#syllabus2 = InlineKeyboardButton("📚 المناهج (جديد)", url="https://t.me/CETSU_Syllabus_Bot")
 
 bots_menu = InlineKeyboardMarkup(row_width=1)
-bots_menu.add(roadMap, comp_lost, syllabus, syllabus2)
+bots_menu.add(roadMap, comp_lost, syllabus", syllabus2")
 
 
 # Join Us Menu:
