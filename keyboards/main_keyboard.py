@@ -22,7 +22,8 @@ syllabus = InlineKeyboardButton("📚 المناهج", url="https://t.me/CETCu_b
 #syllabus2 = InlineKeyboardButton("📚 المناهج (جديد)", url="https://t.me/CETSU_Syllabus_Bot")
 
 bots_menu = InlineKeyboardMarkup(row_width=1)
-bots_menu.add(roadMap, comp_lost, syllabus", syllabus2")
+# NOTE : Add the new syllabus bot when it's ready in the next line.
+bots_menu.add(roadMap, comp_lost, syllabus)
 
 
 # Join Us Menu:
