@@ -9,14 +9,8 @@
 import os
 from dotenv import load_dotenv
 
-# Load environment variables from .env
 load_dotenv()
 
-# Bot token
 BOT_TOKEN = os.getenv("BOT_TOKEN")
-
-# Database connection URL
-DATABASE_URL = os.getenv("DATABASE_URL")
-
-# List of sub-admin Telegram IDs
-ADMIN_ID = list(map(int, os.getenv("ADMINS", "").split(","))) if os.getenv("ADMINS") else []
+#DATABASE_URL = os.getenv("DATABASE_URL")
+ADMIN_ID = list(map(int, os.getenv("ADMIN_ID", "").split(","))) if os.getenv("ADMIN_ID") else []
