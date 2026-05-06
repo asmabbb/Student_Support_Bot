@@ -97,6 +97,13 @@ def process_feedback(message):
     feedback_mode_users.remove(chat_id)
 
 
+
+
+@bot.callback_query_handler(func=lambda call: call.data == "group_soon")
+def group_soon_callback(call):
+    bot.answer_callback_query(call.id, "قريبا ...", show_alert=False)
+
+
 # View My Feedback
 # @bot.message_handler(func=lambda message: message.text == "📂 View My Feedback")
 # def view_my_feedback(message):
